@@ -20,16 +20,6 @@
       ],
       "Hash": "dbfa2adb83f8063640982459e153f650"
     },
-    "DirectedClustering": {
-      "Package": "DirectedClustering",
-      "Version": "1.0.0",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "R"
-      ],
-      "Hash": "0fbf995aacbbbef0f54ed3289b6faba6"
-    },
     "KernSmooth": {
       "Package": "KernSmooth",
       "Version": "2.23-24",

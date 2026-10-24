@@ -1,7 +1,7 @@
 library(targets)
 
 tar_option_set(
-    packages = c("sf", "igraph", "DirectedClustering")
+    packages = c("sf", "igraph", "Matrix")
 )
 
 tar_source()
