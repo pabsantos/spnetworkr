@@ -8,7 +8,7 @@ tar_source()
 
 list(
     # TRUE downloads only the Sé and República districts
-    tar_target(test, TRUE),
+    tar_target(test, FALSE),
     tar_target(
         zones_file,
         "data-raw/zona_origem_destino.geojson",
@@ -26,7 +26,7 @@ list(
     tar_target(g, read_graph(graph_files[1], format = "graphml")),
     tar_target(v, st_read(graph_files[2])),
     tar_target(e, st_read(graph_files[3])),
-    tar_target(eb, edge_betweenness(g)),
+    tar_target(eb, calc_edge_betweenness(g)),
     tar_target(k, degree(g)),
     tar_target(l, calc_avg_shortest_dist(g)),
     tar_target(c, calc_directed_clustering(g)),
@@ -38,8 +38,11 @@ list(
         v_results_file,
         export_geojson(
             v_results,
-            if (test) "data/sp_graph_test_nodes_results.geojson"
-            else "data/sp_graph_nodes_results.geojson"
+            if (test) {
+                "data/sp_graph_test_nodes_results.geojson"
+            } else {
+                "data/sp_graph_nodes_results.geojson"
+            }
         ),
         format = "file"
     ),
@@ -47,8 +50,11 @@ list(
         e_results_file,
         export_geojson(
             e_results,
-            if (test) "data/sp_graph_test_edges_results.geojson"
-            else "data/sp_graph_edges_results.geojson"
+            if (test) {
+                "data/sp_graph_test_edges_results.geojson"
+            } else {
+                "data/sp_graph_edges_results.geojson"
+            }
         ),
         format = "file"
     )
