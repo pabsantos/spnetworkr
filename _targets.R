@@ -27,6 +27,39 @@ list(
     tar_target(v, st_read(graph_files[2])),
     tar_target(e, st_read(graph_files[3])),
     tar_target(eb, calc_edge_betweenness(g)),
+    tar_target(
+        eb_sample_grid,
+        {
+            grid <- expand.grid(
+                frac = c(0.01, 0.05, 0.10, 0.25, 0.50, 1.00),
+                rep = 1:5
+            )
+            # frac = 1 uses every vertex, so one repetition is enough
+            grid[grid$frac < 1 | grid$rep == 1, ]
+        }
+    ),
+    tar_target(
+        eb_sample_metrics,
+        eval_sampled_edge_betweenness(
+            g,
+            eb,
+            eb_sample_grid$frac,
+            eb_sample_grid$rep
+        ),
+        pattern = map(eb_sample_grid)
+    ),
+    tar_target(
+        eb_sample_plot_file,
+        plot_eb_sampling(
+            eb_sample_metrics,
+            if (test) {
+                "plots/sp_graph_test_eb_sampling.png"
+            } else {
+                "plots/sp_graph_eb_sampling.png"
+            }
+        ),
+        format = "file"
+    ),
     tar_target(k, degree(g)),
     tar_target(l, calc_avg_shortest_dist(g)),
     tar_target(c, calc_directed_clustering(g)),

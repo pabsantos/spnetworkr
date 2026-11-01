@@ -41,6 +41,12 @@ Written to `data/`:
 - `sp_graph_nodes_results.geojson`: nodes with `k`, `l`, `c`
 - `sp_graph_edges_results.geojson`: edges with `eb`
 
+Plots are written to `plots/`:
+
+- `sp_graph_eb_sampling.png`: Spearman, RMSE, MAE and run time of edge
+  betweenness estimated from random source-vertex samples (1-100%, 5 reps),
+  against the exact `eb`; the table is `targets::tar_read(eb_sample_metrics)`
+
 Test runs use the `sp_graph_test` prefix. Random-graph parameters are available
 via `targets::tar_read(g_random_params)`.
 
