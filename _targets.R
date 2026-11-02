@@ -60,6 +60,47 @@ list(
         ),
         format = "file"
     ),
+    # Border effect: SP + first-order neighbor OD zones
+    tar_target(
+        graph_files_nb,
+        {
+            download_script
+            download_graph(zones_file, test = test, neighbors = TRUE)
+        },
+        format = "file"
+    ),
+    tar_target(g_nb, read_graph(graph_files_nb[1], format = "graphml")),
+    tar_target(e_nb, st_read(graph_files_nb[3])),
+    tar_target(eb_nb, calc_sp_edge_betweenness(g_nb, V(g)$id)),
+    tar_target(eb_border, compare_eb_border(e, eb, vcount(g), e_nb, eb_nb)),
+    tar_target(
+        eb_border_file,
+        {
+            path <- if (test) {
+                "data/sp_graph_test_eb_border_effect.csv"
+            } else {
+                "data/sp_graph_eb_border_effect.csv"
+            }
+            write.csv(eb_border$stats, path, row.names = FALSE)
+            path
+        },
+        format = "file"
+    ),
+    tar_target(
+        eb_border_plot_file,
+        plot_eb_border_maps(
+            e,
+            eb_border$pairs,
+            zones_file,
+            test,
+            if (test) {
+                "plots/sp_graph_test_eb_border_effect.png"
+            } else {
+                "plots/sp_graph_eb_border_effect.png"
+            }
+        ),
+        format = "file"
+    ),
     tar_target(k, degree(g)),
     tar_target(l, calc_avg_shortest_dist(g)),
     tar_target(c, calc_directed_clustering(g)),
